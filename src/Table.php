@@ -21,21 +21,15 @@ class Table
      *
      * @var integer
      */
-    private $horizontal = 8;
-    
-    /**
-     *
-     * @var integer
-     */
-    private $vertical = 8;
+    private $sideLength = 8;
     
     /**
      * 
      * @return integer
      */
-    public function getHorizontal(): integer
+    public function getSideLength(): integer
     {
-        return $this->horizontal;
+        return $this->sideLength;
     }
     
     /**
@@ -43,29 +37,9 @@ class Table
      * @param integer $horizontal
      * @return void
      */
-    public function setHorizontal(integer $horizontal): void
+    public function setSideLength (integer $length): void
     {
-        $this->horizontal = $horizontal;
+        $this->sideLength = $length;
     }
-    
-    /**
-     * 
-     * @return integer
-     */
-    public function getVertical(): integer
-    {
-        return $this->vertical;
-    }
-    
-    /**
-     * 
-     * @param integer $vertical
-     * @return void
-     */
-    public function setVertical(integer $vertical): void
-    {
-        $this->vertical = $vertical;
-    }
-    
     
 }

@@ -37,15 +37,13 @@ class Check implements Checker
     
     /**
      *
-     * @var type integer|null
+     * @var type Table
      */
-    public $xPosition = null;
+    private $table;
     
-    /**
-     *
-     * @var type intger|null
-     */
-    public $yPosition = null;
+    public function __construct(Table $table) {
+        $this->table = $table;
+    }
     
     /**
      * Return check color
@@ -97,20 +95,19 @@ class Check implements Checker
         return $this->checkCount;
     }
     
-    public function moveCheck(Table $table, integer $directionFlag): array
+    public function moveCheck(integer $xPosition, integer $yPosition, array $rowChecks, integer $directionFlag): array
     {
         if (!in_array($directionFlag, $this->whiteListDirection())) {
             throw new Exception("Direction error");
         }
         
-        if (sizeof($rowChecks) == 0) {
-            
-        }
+        $endPointByHorizontal = $this->getEndPoint($xPosition, $yPosition, $rowChecks, $directionFlag);
+        $endPointByVertical = $this->getEndPoint($xPosition, $yPosition, $rowChecks, $directionFlag);
         
-        
+       
     }
     
-    public function whiteListDirection()
+    public function whiteListDirection(): array
     {
         return [
             self::DIRECTION_UP,
@@ -118,5 +115,40 @@ class Check implements Checker
             self::DIRECTION_DOWN,
             self::DIRECTION_LEFT,
         ];
+    }
+    
+    private function validatePointPosition(integer $point): bool
+    {
+        if ($point < 0 && $point > $this->table->getSideLength()) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private function getEndPoint(integer $xPosition, integer $yPosition, $rowChecks, integer $directionFlag): ?integer
+    {
+        switch ($directionFlag) {
+            case self::DIRECTION_UP:
+                $endPoint = (sizeof($rowChecks) + $yPosition) + 1; 
+                break;
+            case self::DIRECTION_RIGHT:
+                $endPoint = (sizeof($rowChecks) + $xPosition) + 1;
+                break;
+            case self::DIRECTION_DOWN:
+                $endPoint = ($yPosition - sizeof($rowChecks)) - 1;
+                break;
+            case self::DIRECTION_LEFT:
+                $endPoint = ($xPosition - sizeof($rowChecks)) - 1;
+                break;
+            default:
+                break;
+        }
+        
+        if (!$this->validatePointPosition($endPoint)) {
+            return false;
+        }
+        
+        return $endPoint;
     }
 }
