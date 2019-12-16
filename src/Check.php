@@ -95,7 +95,7 @@ class Check implements Checker
         return $this->checkCount;
     }
     
-    public function moveCheck(integer $xPosition, integer $yPosition, array $rowChecks, integer $directionFlag): array
+    /*public function moveCheck(integer $xPosition, integer $yPosition, array $rowChecks, integer $directionFlag): array
     {
         if (!in_array($directionFlag, $this->whiteListDirection())) {
             throw new Exception("Direction error");
@@ -105,8 +105,61 @@ class Check implements Checker
         $endPointByVertical = $this->getEndPoint($xPosition, $yPosition, $rowChecks, $directionFlag);
         
        
+    }*/
+    
+    public function moveCheck(integer $xPosition, integer $yPosition): bool
+    {
+        $itteration = 0;
+        $result = false;
+        
+        for ($fromX = $xPosition - 1; $fromX <= $xPosition + 1; $fromX++) {
+            for ($fromY = $yPosition - 1; $fromY <= $yPosition + 1; $fromY++) {
+                $itteration++;
+                $cell = $this->table->checkArrayCells($fromX, $fromY);
+
+                if (is_null($cell) || $cell instanceof self) {
+                    continue;
+                }
+                
+                if ($this->findAndFilledBySelf($fromX, $fromY, $itteration)) {
+                    $result = true;
+                }
+            }
+        }
+        
+        return $result;
     }
     
+    private function findAndFilledBySelf(integer $newX, integer $newY, integer $itteration): bool
+    {
+        $historyByX = [];
+        $historyByY = [];
+        
+        switch ($itteration) {
+            case 1:
+                for ($x = $newX; $x >= 0; $x--) {
+                    for ($y = $newY; $y >= 0; $y--) {
+                        $cell = $this->table->checkArrayCells($fromX, $fromY);
+                        
+                        if (is_null($cell)) {
+                            return false;
+                        }
+                        
+                        if (!$cell instanceof self) {
+                            continue;
+                        }
+                         
+                        
+                    }
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+
     public function whiteListDirection(): array
     {
         return [

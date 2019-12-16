@@ -24,6 +24,17 @@ class Table
     private $sideLength = 8;
     
     /**
+     *
+     * @var array
+     */
+    private $arrayCells = [];
+    
+    public function __construct($sideLength = 8) {
+        $this->sideLength = $sideLength;
+        $this->filled();
+    }
+    
+    /**
      * 
      * @return integer
      */
@@ -40,6 +51,35 @@ class Table
     public function setSideLength (integer $length): void
     {
         $this->sideLength = $length;
+        $this->filled();
+    }
+    
+    /**
+     * Getting cell value
+     * 
+     * @param integer $x
+     * @param integer $y
+     * @return \Interfaces\Checker|null
+     */
+    public function checkArrayCells(integer $x, integer $y): ?\Interfaces\Checker
+    {
+        $value = $this->arrayCells[$x][$y];
+        
+        return $value;
+    }
+    
+    /**
+     * Fill cells with null vallues
+     * 
+     * @return void
+     */
+    private function filled(): void
+    {
+        for ($x = 0; $x < $this->sideLength; $x++) {
+            for ($y = 0; $y < $this->sideLength; $y++) {
+                $this->arrayCells[$x][$y] = null;
+            }
+        }
     }
     
 }
