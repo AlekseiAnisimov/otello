@@ -121,9 +121,13 @@ class Check implements Checker
                     continue;
                 }
                 
-                if ($this->findAndFilledBySelf($fromX, $fromY, $itteration)) {
-                    $result = true;
+                $arr = $this->findAndFilledBySelf($fromX, $fromY, $itteration);
+
+                if (sizeof($arr) == 0) {
+                    continue;
                 }
+
+                $this->table->setCellsByValue($arr);
             }
         }
         
@@ -132,8 +136,7 @@ class Check implements Checker
     
     private function findAndFilledBySelf(integer $newX, integer $newY, integer $itteration): bool
     {
-        $historyByX = [];
-        $historyByY = [];
+        $history = [];
         
         switch ($itteration) {
             case 1:
@@ -142,14 +145,16 @@ class Check implements Checker
                         $cell = $this->table->checkArrayCells($fromX, $fromY);
                         
                         if (is_null($cell)) {
-                            return false;
+                            return [];
                         }
                         
-                        if (!$cell instanceof self) {
+                        if ($cell->color != $this->color) {
                             continue;
                         }
                          
-                        
+                        $history[]['val'] = $cell;
+                        $history[]['x'] = $x;
+                        $history[]['y'] = $y;
                     }
                 }
                 break;
@@ -157,6 +162,8 @@ class Check implements Checker
             default:
                 break;
         }
+
+        return  $history;
     }
 
 

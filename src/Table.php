@@ -81,5 +81,22 @@ class Table
             }
         }
     }
+
+    public function setCellsByValue(array $history): void
+    {
+        foreach ($history as $key => $value) {
+            $this->setCellByCheck($value['val'], $value['x'], $value['y']);
+        }
+    }
+
+    public function setCellByCheck(Checker $check, integer $x, integer $y): void
+    {
+        $this->arrayCells[$x][$y] = $check;
+    }
+
+    public function findAvailableMoves()
+    {
+        
+    }
     
 }
