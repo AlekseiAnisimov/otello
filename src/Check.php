@@ -24,16 +24,20 @@ class Check implements Checker
     const DIRECTION_LEFT = 3;
     
     /**
+     * @var integer|null
+     */
+    public $x = null;
+
+    /**
+     * @var integer|null
+     */
+    public $y = null;
+
+    /**
      *
      * @var string|null
      */
     private $color = null;
-    
-    /**
-     *
-     * @var type integer
-     */
-    private $checkCount = 0;
     
     /**
      *
@@ -95,25 +99,13 @@ class Check implements Checker
         return $this->checkCount;
     }
     
-    /*public function moveCheck(integer $xPosition, integer $yPosition, array $rowChecks, integer $directionFlag): array
-    {
-        if (!in_array($directionFlag, $this->whiteListDirection())) {
-            throw new Exception("Direction error");
-        }
-        
-        $endPointByHorizontal = $this->getEndPoint($xPosition, $yPosition, $rowChecks, $directionFlag);
-        $endPointByVertical = $this->getEndPoint($xPosition, $yPosition, $rowChecks, $directionFlag);
-        
-       
-    }*/
-    
-    public function moveCheck(integer $xPosition, integer $yPosition): bool
+    public function moveCheck(): bool
     {
         $itteration = 0;
         $result = false;
         
-        for ($fromX = $xPosition - 1; $fromX <= $xPosition + 1; $fromX++) {
-            for ($fromY = $yPosition - 1; $fromY <= $yPosition + 1; $fromY++) {
+        for ($fromX = $this->x - 1; $fromX <= $this->x + 1; $fromX++) {
+            for ($fromY = $this->y - 1; $fromY <= $this->y + 1; $fromY++) {
                 $itteration++;
                 $cell = $this->table->checkArrayCells($fromX, $fromY);
 

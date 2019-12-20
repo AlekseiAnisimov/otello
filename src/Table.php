@@ -9,7 +9,6 @@ declare (strict_types=1);
 
 namespace Otello;
 
-
 /**
  * Description of Table
  *
@@ -77,7 +76,9 @@ class Table
     {
         for ($x = 0; $x < $this->sideLength; $x++) {
             for ($y = 0; $y < $this->sideLength; $y++) {
-                $this->arrayCells[$x][$y] = null;
+                $this->arrayCells[]['x'] = $x;
+                $this->arrayCells[]['y'] = $y;
+                $this->arrayCells[]['val'] = null;
             }
         }
     }
@@ -91,7 +92,20 @@ class Table
 
     public function setCellByCheck(Checker $check, integer $x, integer $y): void
     {
-        $this->arrayCells[$x][$y] = $check;
+        $this->arrayCells[]['x'] = $x;
+        $this->arrayCells[]['y'] = $y;
+        $this->arrayCells[]['val'] = $check;
+    }
+
+
+    public function getCountChecks(string $checkColor = null)
+    {
+        //$checks
+        foreach ($this->arrayCells as $x => $values) {
+            foreach ($values as $y => $val) {
+                if 
+            }
+        }
     }
 
     public function findAvailableMoves()
